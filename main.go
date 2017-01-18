@@ -18,7 +18,6 @@ func showChiiia12(w http.ResponseWriter,r *http.Request){
 
 func main() {
 	http.HandleFunc("/onsen/list", showOnsenList)
-	http.HandleFunc("/onsen/list2", showOnsenList2)
 	http.HandleFunc("/chiiia12",showChiiia12)
 	http.HandleFunc("/kika", showKika)
 	http.ListenAndServe(":8080", nil)
