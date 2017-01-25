@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"encoding/json"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"net/http"
@@ -33,6 +34,7 @@ func showSpaList(w http.ResponseWriter, r *http.Request) {
 		scanArgs[i] = &values[i]
 	}
 
+	spa := Spa{}
 	for rows.Next() {
 		err = rows.Scan(scanArgs...)
 		if err != nil {
@@ -47,9 +49,20 @@ func showSpaList(w http.ResponseWriter, r *http.Request) {
 			} else {
 				value = string(col)
 			}
-			fmt.Fprintf(w, "%s\n", columns[i]+":"+value)
+			if columns[i] == "name" {
+				spa.Name = value
+			} else {
+				spa.Address = value
+			}
 		}
+
 	}
+	data := spa
+	bytes, err := json.Marshal(data)
+	if err != nil {
+		return
+	}
+	fmt.Fprintf(w, "%s\n", string(bytes))
 }
 
 func main() {
@@ -57,4 +70,9 @@ func main() {
 	//	fmt.Printf("Server is runnig... localhost:8080")
 	http.ListenAndServe(":8080", nil)
 
+}
+
+type Spa struct {
+	Name    string
+	Address string
 }
