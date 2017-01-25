@@ -8,14 +8,14 @@ import (
 )
 
 func showSpaList(w http.ResponseWriter, r *http.Request) {
-	db, err := sql.Open("mysql", "root:@/sample")
+	db, err := sql.Open("mysql", "root:@/spary")
 	//	db, err := sql.Open("mysql", "user:password@/dbname")
 	if err != nil {
 		panic(err.Error())
 	}
 	defer db.Close() // 関数がリターンする直前に呼び出される
 
-	rows, err := db.Query("SELECT * FROM sample_table") //
+	rows, err := db.Query("SELECT * FROM spa") //
 	if err != nil {
 		panic(err.Error())
 	}
