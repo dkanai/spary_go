@@ -9,6 +9,7 @@ import (
 
 func showOnsenList(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "onsenList")
+	fmt.Fprintf(w, "Onsen List From Go API")
 	db, err := sql.Open("mysql", "root:@/sample")
 	//	db, err := sql.Open("mysql", "user:password@/dbname")
 	if err != nil {
@@ -56,6 +57,7 @@ func showOnsenList(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	http.HandleFunc("/onsen/list", showOnsenList)
+	fmt.Printf("Server is runnig... localhost:8080")
 	http.ListenAndServe(":8080", nil)
 
 }
