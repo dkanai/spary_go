@@ -54,8 +54,8 @@ func showOnsenList(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/onsen/list", showOnsenList)
-	fmt.Printf("Server is runnig... localhost:8080")
+	http.HandleFunc("/spa/list", showOnsenList)
+//	fmt.Printf("Server is runnig... localhost:8080")
 	http.ListenAndServe(":8080", nil)
 
 }
