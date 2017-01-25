@@ -1,29 +1,61 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
+	_ "github.com/go-sql-driver/mysql"
 	"net/http"
 )
 
 func showOnsenList(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Onsen List")
-}
+	fmt.Fprintf(w, "onsenList")
+	db, err := sql.Open("mysql", "root:@/sample")
+	//	db, err := sql.Open("mysql", "user:password@/dbname")
+	if err != nil {
+		panic(err.Error())
+	}
+	defer db.Close() // 関数がリターンする直前に呼び出される
 
-func showOnsenList2(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Onsen List")
-}
+	rows, err := db.Query("SELECT * FROM sample_table") //
+	if err != nil {
+		panic(err.Error())
+	}
 
-func showKika(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "pc")
-}
-func showChiiia12(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "chiiia12")
+	columns, err := rows.Columns() // カラム名を取得
+	if err != nil {
+		panic(err.Error())
+	}
+
+	values := make([]sql.RawBytes, len(columns))
+	//  rows.Scan は引数に `[]interface{}`が必要.
+
+	scanArgs := make([]interface{}, len(values))
+	for i := range values {
+		scanArgs[i] = &values[i]
+	}
+
+	for rows.Next() {
+		err = rows.Scan(scanArgs...)
+		if err != nil {
+			panic(err.Error())
+		}
+
+		var value string
+		for i, col := range values {
+			// Here we can check if the value is nil (NULL value)
+			if col == nil {
+				value = "NULL"
+			} else {
+				value = string(col)
+			}
+			fmt.Println(columns[i], ": ", value)
+		}
+		fmt.Println("-----------------------------------")
+	}
 }
 
 func main() {
 	http.HandleFunc("/onsen/list", showOnsenList)
-	http.HandleFunc("/onsen/list2", showOnsenList2)
-	http.HandleFunc("/chiiia12", showChiiia12)
-	http.HandleFunc("/kika", showKika)
 	http.ListenAndServe(":8080", nil)
+
 }
