@@ -9,12 +9,12 @@ import (
 )
 
 type Result struct {
-	Spa []Spa
+	Spa []Spa `json:"spa"`
 }
 
 type Spa struct {
-	Name    string
-	Address string
+	Name    string `json:"name"`
+	Address string `json:"address"`
 }
 
 func showSpaList(w http.ResponseWriter, r *http.Request) {
