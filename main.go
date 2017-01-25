@@ -8,8 +8,6 @@ import (
 )
 
 func showOnsenList(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "onsenList")
-	fmt.Fprintf(w, "Onsen List From Go API")
 	db, err := sql.Open("mysql", "root:@/sample")
 	//	db, err := sql.Open("mysql", "user:password@/dbname")
 	if err != nil {
@@ -49,9 +47,9 @@ func showOnsenList(w http.ResponseWriter, r *http.Request) {
 			} else {
 				value = string(col)
 			}
-			fmt.Println(columns[i], ": ", value)
+			fmt.Fprintf(w,columns[i], ": ", value)
 		}
-		fmt.Println("-----------------------------------")
+		fmt.Fprintf(w,"-----------------------------------\n")
 	}
 }
 
