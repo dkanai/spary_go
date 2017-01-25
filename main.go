@@ -47,15 +47,14 @@ func showOnsenList(w http.ResponseWriter, r *http.Request) {
 			} else {
 				value = string(col)
 			}
-			fmt.Fprintf(w,columns[i], ": ", value)
+			fmt.Fprintf(w, "%s\n", columns[i]+":"+value)
 		}
-		fmt.Fprintf(w,"-----------------------------------\n")
 	}
 }
 
 func main() {
 	http.HandleFunc("/spa/list", showOnsenList)
-//	fmt.Printf("Server is runnig... localhost:8080")
+	//	fmt.Printf("Server is runnig... localhost:8080")
 	http.ListenAndServe(":8080", nil)
 
 }
