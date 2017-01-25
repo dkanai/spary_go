@@ -7,6 +7,10 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"net/http"
 )
+type Spa struct {
+	Name    string
+	Address string
+}
 
 func showSpaList(w http.ResponseWriter, r *http.Request) {
 	db, err := sql.Open("mysql", "root:@/spary")
@@ -34,8 +38,9 @@ func showSpaList(w http.ResponseWriter, r *http.Request) {
 		scanArgs[i] = &values[i]
 	}
 
-	spa := Spa{}
+	spaList :=[]Spa{}
 	for rows.Next() {
+		spa := Spa{}
 		err = rows.Scan(scanArgs...)
 		if err != nil {
 			panic(err.Error())
@@ -55,9 +60,10 @@ func showSpaList(w http.ResponseWriter, r *http.Request) {
 				spa.Address = value
 			}
 		}
+		spaList = append(spaList,spa)
 
 	}
-	data := spa
+	data :=spaList 
 	bytes, err := json.Marshal(data)
 	if err != nil {
 		return
@@ -72,7 +78,3 @@ func main() {
 
 }
 
-type Spa struct {
-	Name    string
-	Address string
-}
