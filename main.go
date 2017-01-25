@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-func showOnsenList(w http.ResponseWriter, r *http.Request) {
+func showSpaList(w http.ResponseWriter, r *http.Request) {
 	db, err := sql.Open("mysql", "root:@/sample")
 	//	db, err := sql.Open("mysql", "user:password@/dbname")
 	if err != nil {
@@ -53,7 +53,7 @@ func showOnsenList(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/spa/list", showOnsenList)
+	http.HandleFunc("/api/spa/list", showSpaList)
 	//	fmt.Printf("Server is runnig... localhost:8080")
 	http.ListenAndServe(":8080", nil)
 
