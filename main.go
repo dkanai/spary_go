@@ -81,7 +81,7 @@ func showSpaList(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	http.HandleFunc("/api/spa/list", showSpaList)
-	//	fmt.Printf("Server is runnig... localhost:8080")
+	fmt.Printf("Server is running... localhost:8080")
 	http.ListenAndServe(":8080", nil)
 
 }
