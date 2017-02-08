@@ -1,29 +1,87 @@
 package main
 
 import (
+	"database/sql"
+	"encoding/json"
 	"fmt"
+	_ "github.com/go-sql-driver/mysql"
 	"net/http"
 )
 
-func showOnsenList(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Onsen List From Go API")
+type Result struct {
+	Spa []Spa `json:"spa"`
 }
 
-func showOnsenList2(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Onsen List")
+type Spa struct {
+	Name    string `json:"name"`
+	Address string `json:"address"`
 }
 
-func showKika(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "pc")
-}
-func showChiiia12(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "chiiia12")
+func showSpaList(w http.ResponseWriter, r *http.Request) {
+	db, err := sql.Open("mysql", "root:@/spary")
+	//	db, err := sql.Open("mysql", "user:password@/dbname")
+	if err != nil {
+		panic(err.Error())
+	}
+	defer db.Close() // 関数がリターンする直前に呼び出される
+
+	rows, err := db.Query("SELECT * FROM spa") //
+	if err != nil {
+		panic(err.Error())
+	}
+
+	columns, err := rows.Columns() // カラム名を取得
+	if err != nil {
+		panic(err.Error())
+	}
+
+	values := make([]sql.RawBytes, len(columns))
+	//  rows.Scan は引数に `[]interface{}`が必要.
+
+	scanArgs := make([]interface{}, len(values))
+	for i := range values {
+		scanArgs[i] = &values[i]
+	}
+
+	spaList := []Spa{}
+	for rows.Next() {
+		spa := Spa{}
+		err = rows.Scan(scanArgs...)
+		if err != nil {
+			panic(err.Error())
+		}
+
+		var value string
+		for i, col := range values {
+			// Here we can check if the value is nil (NULL value)
+			if col == nil {
+				value = "NULL"
+			} else {
+				value = string(col)
+			}
+			if columns[i] == "name" {
+				spa.Name = value
+				fmt.Printf(value)
+			} else {
+				spa.Address = value
+				fmt.Printf(value)
+			}
+		}
+		spaList = append(spaList, spa)
+
+	}
+	data := Result{}
+	data.Spa = spaList
+	bytes, err := json.Marshal(data)
+	if err != nil {
+		return
+	}
+	fmt.Fprintf(w, "%s\n", string(bytes))
 }
 
 func main() {
-	http.HandleFunc("/api/onsen/list", showOnsenList)
-	http.HandleFunc("/chiiia12",showChiiia12)
-	http.HandleFunc("/kika", showKika)
-	fmt.Printf("Server is runnig... localhost:8080")
+	http.HandleFunc("/api/spa/list", showSpaList)
+	fmt.Printf("Server is running... localhost:8080")
 	http.ListenAndServe(":8080", nil)
+
 }
