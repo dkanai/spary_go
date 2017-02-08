@@ -1,0 +1,26 @@
+version: '2'
+
+services:
+  spary_go:
+    image: 'golang:1.7-onbuild'
+    environment:
+      MYAPP_DATABASE_USERNAME: root
+      MYAPP_DATABASE_PASSWORD: 'test'
+      MYAPP_DATABASE_HOST: db
+    volumes:
+      - '.:/go/src/app'
+    ports:
+      - '8080:8080'
+    links:
+      - db
+    command: 'go run main.go'
+  db:
+    image: mysql:5.7.17
+    environment:
+      MYSQL_ROOT_PASSWORD: 'test'
+    volumes:
+      - db-data:/var/lib/mysql
+
+volumes:
+  db-data:
+    driver: local
