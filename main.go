@@ -13,12 +13,13 @@ type Result struct {
 }
 
 type Spa struct {
+	Id      string `json:"id"`
 	Name    string `json:"name"`
 	Address string `json:"address"`
 }
 
 func showSpaList(w http.ResponseWriter, r *http.Request) {
-	db, err := sql.Open("mysql", "root:@/spary")
+	db, err := sql.Open("mysql", "root:root@/spary")
 	//	db, err := sql.Open("mysql", "user:password@/dbname")
 	if err != nil {
 		panic(err.Error())
@@ -62,8 +63,11 @@ func showSpaList(w http.ResponseWriter, r *http.Request) {
 			if columns[i] == "name" {
 				spa.Name = value
 				fmt.Printf(value)
-			} else {
+			} else if columns[i] == "address" {
 				spa.Address = value
+				fmt.Printf(value)
+			} else if columns[i] == "id" {
+				spa.Id = value
 				fmt.Printf(value)
 			}
 		}
