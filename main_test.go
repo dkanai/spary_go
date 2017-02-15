@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
+	"os"
 	"encoding/json"
 )
 
@@ -30,8 +31,17 @@ func TestSampleHandler(t *testing.T) {
 		t.Fatalf("Data Error. %v", string(data))
 	}
 }
+func TestMain(m *testing.M){
+	// ここにテストの初期化処理
+	fmt.Printf("初期化")
+	code := m.Run()
+	// ここでテストのお片づけ
+	fmt.Printf("後処理")
+	defer os.Exit(code)
+}
+
 func TestShowSpaList(t *testing.T) {
-	var requests [2]*http.Request
+	var requests [3]*http.Request
 	var err error
 
 	requests[0], err = http.NewRequest("GET", "/api/spa/list", nil)
