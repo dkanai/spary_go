@@ -1,4 +1,4 @@
-package main
+package batch
 
 import (
   "fmt"
@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func main() {
+func ImportOnsenList() {
   // バッチ処理
   url := "http://jws.jalan.net/APICommon/OnsenSearch/V1/?key=aqr15a41839ced&l_area=010300&count=1&xml_ptn=1"
   req, _ := http.NewRequest("GET", url, nil)
