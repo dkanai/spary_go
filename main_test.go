@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
+	"encoding/json"
 )
 
 var sampleHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -43,8 +44,18 @@ func TestShowSpaList(t *testing.T) {
 	showSpaList(r, requests[0])
 
 	data, err := ioutil.ReadAll(r.Body)
-
-	if "{\"spa\":[{\"name\":\"title\",\"address\":\"address\"}]}" != string(data) {
-		t.Fatalf("Data Error. %v", string(data))
+	obj := new(Result)
+	json.Unmarshal(([]byte)(string(data)),obj)
+	if obj.Spa[0].Name != "木下温泉" {
+		t.Fatalf("Data Error. name is not '木下温泉'. %v",string(obj.Spa[0].Name))
+	 }
+	if obj.Spa[0].Address != "東日本橋" {
+		t.Fatalf("Data Error. address is not '東日本橋'. %v",string(obj.Spa[0].Address))
+	}
+	if obj.Spa[1].Name!= "hoge温泉" {
+		t.Fatalf("Data Error. name is not 'hoge温泉'. %v",string(obj.Spa[1].Name))
+	}
+	if obj.Spa[1].Address != "大坂" {
+		t.Fatalf("Data Error. address is not '大坂'. %v",string(obj.Spa[1].Address))
 	}
 }
