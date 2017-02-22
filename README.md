@@ -1,5 +1,5 @@
 # Spary Go
-Sapry backend
+Sapry backend  
 No SPA, No life! You're making more better SPA life.
 
 ## Tech
@@ -9,5 +9,5 @@ No SPA, No life! You're making more better SPA life.
 | ---- | ---- |
 
 ## Init
-$ mysql -u root -p < db/init.sql
+$ mysql -u root -p < db/init.sql  
 $ mysql -u root -p < db/create_table.sql
