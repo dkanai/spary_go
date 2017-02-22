@@ -1,6 +1,7 @@
 package main
 
 import (
+  "api"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -51,10 +52,10 @@ func TestShowSpaList(t *testing.T) {
 
 	r := httptest.NewRecorder()
 
-	showSpaList(r, requests[0])
+	api.ShowSpaList(r, requests[0])
 
 	data, err := ioutil.ReadAll(r.Body)
-	obj := new(Result)
+	obj := new(api.Result)
 	json.Unmarshal(([]byte)(string(data)),obj)
 	if obj.Spa[0].Name != "木下温泉" {
 		t.Fatalf("Data Error. name is not '木下温泉'. %v",string(obj.Spa[0].Name))

@@ -18,7 +18,7 @@ type Spa struct {
 	Address string `json:"address"`
 }
 
-func showSpaList(w http.ResponseWriter, r *http.Request) {
+func ShowSpaList(w http.ResponseWriter, r *http.Request) {
 	db, err := sql.Open("mysql", "root:root@/spary")
 	//	db, err := sql.Open("mysql", "user:password@/dbname")
 	if err != nil {
@@ -84,7 +84,7 @@ func showSpaList(w http.ResponseWriter, r *http.Request) {
 }
 
 func Run() {
-	http.HandleFunc("/api/spa/list", showSpaList)
+	http.HandleFunc("/api/spa/list", ShowSpaList)
 	fmt.Printf("Server is running... localhost:8080")
 	http.ListenAndServe(":8080", nil)
 
