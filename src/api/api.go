@@ -19,7 +19,7 @@ type Spa struct {
 }
 
 func ShowSpaList(w http.ResponseWriter, r *http.Request) {
-	db, err := sql.Open("mysql", "root:root@/spary")
+	db, err := sql.Open("mysql", "spary_admin:spary@YRAPS@/spary")
 	//	db, err := sql.Open("mysql", "user:password@/dbname")
 	if err != nil {
 		panic(err.Error())
