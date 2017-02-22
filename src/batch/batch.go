@@ -1,8 +1,10 @@
 package batch
 
 import (
+	"database/sql"
   "fmt"
   "io/ioutil"
+	_ "github.com/go-sql-driver/mysql"
 	"net/http"
 )
 
@@ -16,4 +18,18 @@ func ImportOnsenList() {
 
   byteArray, _ := ioutil.ReadAll(resp.Body)
   fmt.Println(string(byteArray))
+
+	db, err := sql.Open("mysql", "root:root@/spary")
+	if err != nil {
+		panic(err.Error())
+	}
+	defer db.Close() // 関数がリターンする直前に呼び出される
+
+  query := "INSERT INTO spa (name,address) VALUES(?, ?)"
+
+	rows, err := db.Query(query, "AAA", "Where") //
+	if err != nil {
+		panic(err.Error())
+	}
+  fmt.Println(rows)
 }
