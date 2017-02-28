@@ -54,7 +54,6 @@ func ShowSpaList(w http.ResponseWriter, r *http.Request) {
 
 		var value string
 		for i, col := range values {
-			// Here we can check if the value is nil (NULL value)
 			if col == nil {
 				value = "NULL"
 			} else {
@@ -62,13 +61,10 @@ func ShowSpaList(w http.ResponseWriter, r *http.Request) {
 			}
 			if columns[i] == "name" {
 				spa.Name = value
-				fmt.Printf(value)
 			} else if columns[i] == "address" {
 				spa.Address = value
-				fmt.Printf(value)
 			} else if columns[i] == "id" {
 				spa.Id = value
-				fmt.Printf(value)
 			}
 		}
 		spaList = append(spaList, spa)
