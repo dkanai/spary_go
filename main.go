@@ -5,9 +5,12 @@ import (
   "batch"
   "fmt"
   "os"
+  "github.com/joho/godotenv"
 )
 
 func main() {
+  godotenv.Load()
+  fmt.Println(os.Getenv("ENV"))
   name := os.Args[1]
   fmt.Println(name)
   if name == "api" {
