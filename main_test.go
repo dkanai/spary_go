@@ -20,38 +20,39 @@ func TestMain(m *testing.M){
   db = lib.DbOpen()
   defer db.Close()
 
-  truncateTable()
-
 	code := m.Run()
+
+  truncateTable()
 
 	defer os.Exit(code)
 }
 
 func truncateTable() {
-  query := "TRUNCATE FROM spa;"
-  db.Query(query)
+  db.Query("DELETE FROM spa;")
 }
 
 func TestShowSpaList(t *testing.T) {
-  query := "INSERT INTO spa (name,address) VALUES(?, ?)"
-  db.Query(query, "木下温泉", "木下温泉")
+  db.Query("INSERT INTO spa (name, address) VALUES(?, ?)", "木下温泉", "北海道")
+  db.Query("INSERT INTO spa (name, address) VALUES(?, ?)", "木下温泉2", "北海道2")
 
-	var requests [3]*http.Request
-	var err error
+	req, _ := http.NewRequest("GET", "/api/spa/list", nil)
+	res := httptest.NewRecorder()
+	api.ShowSpaList(res, req)
 
-	requests[0], err = http.NewRequest("GET", "/api/spa/list", nil)
-	if err != nil {
-		t.Errorf("NewRequest[0] Error. %v", err)
-	}
-
-	r := httptest.NewRecorder()
-
-	api.ShowSpaList(r, requests[0])
-
-	data, err := ioutil.ReadAll(r.Body)
+	data, _ := ioutil.ReadAll(res.Body)
 	obj := new(api.Result)
-	json.Unmarshal(([]byte)(string(data)),obj)
+	json.Unmarshal(([]byte)(string(data)), obj)
+
 	if obj.Spa[0].Name != "木下温泉" {
-		t.Fatalf("Data Error. name is not '木下温泉'. %v",string(obj.Spa[0].Name))
-	 }
+		t.Fatalf("Data Error. %v != %v", string(obj.Spa[0].Name), "木下温泉")
+	}
+	if obj.Spa[0].Address != "北海道" {
+		t.Fatalf("Data Error. %v != %v", string(obj.Spa[0].Address), "北海道")
+	}
+	if obj.Spa[1].Name != "木下温泉2" {
+		t.Fatalf("Data Error. %v != %v", string(obj.Spa[1].Name), "木下温泉2")
+	}
+	if obj.Spa[1].Address != "北海道2" {
+		t.Fatalf("Data Error. %v != %v", string(obj.Spa[1].Address), "北海道2")
+	}
 }
