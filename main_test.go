@@ -2,14 +2,12 @@ package main
 
 import (
   "api"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 	"os"
 	"encoding/json"
-  "github.com/joho/godotenv"
   "lib"
   "database/sql"
 )
@@ -17,10 +15,9 @@ import (
 var db *sql.DB
 
 func TestMain(m *testing.M){
-  godotenv.Load()
-  godotenv.Load(fmt.Sprintf(".env.%s", os.Getenv("GO_ENV")))
+  lib.LoadEnv()
 
-  db = lib.Db_open()
+  db = lib.DbOpen()
   defer db.Close()
 
   truncateTable()

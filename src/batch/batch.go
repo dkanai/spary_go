@@ -18,7 +18,7 @@ func ImportOnsenList() {
   byteArray, _ := ioutil.ReadAll(resp.Body)
   fmt.Println(string(byteArray))
 
-	db := lib.Db_open()
+	db := lib.DbOpen()
 	defer db.Close()
 
   query := "INSERT INTO spa (name,address) VALUES(?, ?)"

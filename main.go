@@ -5,12 +5,11 @@ import (
   "batch"
   "fmt"
   "os"
-  "github.com/joho/godotenv"
+  "lib"
 )
 
 func main() {
-  godotenv.Load()
-  godotenv.Load(fmt.Sprintf(".env.%s", os.Getenv("GO_ENV")))
+  lib.LoadEnv()
 
   if len(os.Args) == 1 {
     api.Run()

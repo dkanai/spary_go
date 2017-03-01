@@ -20,7 +20,7 @@ type Spa struct {
 }
 
 func ShowSpaList(w http.ResponseWriter, r *http.Request) {
-	db := lib.Db_open()
+	db := lib.DbOpen()
 	defer db.Close()
 
 	rows, err := db.Query("SELECT * FROM spa")
