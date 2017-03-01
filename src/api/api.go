@@ -6,7 +6,7 @@ import (
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"net/http"
-	"os"
+	"lib"
 )
 
 type Result struct {
@@ -20,13 +20,10 @@ type Spa struct {
 }
 
 func ShowSpaList(w http.ResponseWriter, r *http.Request) {
-	db, err := sql.Open("mysql", os.Getenv("DB_USER") + ":" + os.Getenv("DB_PASS") + "@/" + os.Getenv("DB_NAME"))
-	if err != nil {
-		panic(err.Error())
-	}
-	defer db.Close() // 関数がリターンする直前に呼び出される
+	db := lib.Db_open()
+	defer db.Close()
 
-	rows, err := db.Query("SELECT * FROM spa") //
+	rows, err := db.Query("SELECT * FROM spa")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -83,5 +80,4 @@ func Run() {
 	http.HandleFunc("/v1/spas", ShowSpaList)
 	fmt.Printf("Server is running... localhost:8080")
 	http.ListenAndServe(":8080", nil)
-
 }

@@ -10,7 +10,7 @@ import (
 	"os"
 	"encoding/json"
   "github.com/joho/godotenv"
-  "database/sql"
+  "lib"
 )
 
 func TestMain(m *testing.M){
@@ -21,10 +21,10 @@ func TestMain(m *testing.M){
 }
 
 func TestShowSpaList(t *testing.T) {
-  db, _ := sql.Open("mysql", os.Getenv("DB_USER") + ":" + os.Getenv("DB_PASS") + "@/" + os.Getenv("DB_NAME"))
+  db := lib.Db_open()
   defer db.Close()
   query := "DELETE FROM spa;"
-  db.Query(query, "木下温泉", "Where")
+  db.Query(query)
   query2 := "INSERT INTO spa (name,address) VALUES(?, ?)"
   db.Query(query2, "木下温泉", "木下温泉")
 
