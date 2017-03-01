@@ -10,7 +10,8 @@ import (
 
 func main() {
   godotenv.Load()
-  fmt.Println(os.Getenv("ENV"))
+  godotenv.Load(fmt.Sprintf(".env.%s", os.Getenv("GO_ENV")))
+  fmt.Println(os.Getenv("DB_NAME"))
   name := os.Args[1]
   fmt.Println(name)
   if name == "api" {
