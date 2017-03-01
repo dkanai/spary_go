@@ -9,7 +9,7 @@ import (
 
 func LoadEnv() {
   godotenv.Load()
-  godotenv.Load(fmt.Sprintf(".env.%s", os.Getenv("GO_ENV")))
+  godotenv.Load(fmt.Sprintf("/Users/d.kanai/workspace_go/src/spary_go/.env.%s", os.Getenv("GO_ENV")))
 }
 
 func DbOpen() *sql.DB {
