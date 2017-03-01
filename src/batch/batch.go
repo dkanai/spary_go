@@ -6,6 +6,7 @@ import (
   "io/ioutil"
 	_ "github.com/go-sql-driver/mysql"
 	"net/http"
+	"os"
 )
 
 func ImportOnsenList() {
@@ -19,7 +20,8 @@ func ImportOnsenList() {
   byteArray, _ := ioutil.ReadAll(resp.Body)
   fmt.Println(string(byteArray))
 
-	db, err := sql.Open("mysql", "root:root@/spary")
+	db, err := sql.Open("mysql", os.Getenv("DB_USER") + ":" + os.Getenv("DB_PASS") + "@/" + os.Getenv("DB_NAME"))
+
 	if err != nil {
 		panic(err.Error())
 	}
