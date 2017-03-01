@@ -11,22 +11,33 @@ import (
 	"encoding/json"
   "github.com/joho/godotenv"
   "lib"
+  "database/sql"
 )
+
+var db *sql.DB
 
 func TestMain(m *testing.M){
   godotenv.Load()
   godotenv.Load(fmt.Sprintf(".env.%s", os.Getenv("GO_ENV")))
+
+  db = lib.Db_open()
+  defer db.Close()
+
+  truncateTable()
+
 	code := m.Run()
+
 	defer os.Exit(code)
 }
 
-func TestShowSpaList(t *testing.T) {
-  db := lib.Db_open()
-  defer db.Close()
-  query := "DELETE FROM spa;"
+func truncateTable() {
+  query := "TRUNCATE FROM spa;"
   db.Query(query)
-  query2 := "INSERT INTO spa (name,address) VALUES(?, ?)"
-  db.Query(query2, "木下温泉", "木下温泉")
+}
+
+func TestShowSpaList(t *testing.T) {
+  query := "INSERT INTO spa (name,address) VALUES(?, ?)"
+  db.Query(query, "木下温泉", "木下温泉")
 
 	var requests [3]*http.Request
 	var err error
