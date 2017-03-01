@@ -5,3 +5,11 @@ CREATE TABLE spa (
   address VARCHAR(255),
   PRIMARY KEY (id)
 );
+
+USE spary_test;
+CREATE TABLE spa (
+  id MEDIUMINT NOT NULL AUTO_INCREMENT,
+  name VARCHAR(255),
+  address VARCHAR(255),
+  PRIMARY KEY (id)
+);

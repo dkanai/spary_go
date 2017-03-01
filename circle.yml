@@ -1,0 +1,12 @@
+machine:
+  timezone:
+    Asia/Tokyo
+
+checkout:
+  override:
+    - git clone https://github.com/corgisamurai/spary_go.git 
+    
+test:
+  override:
+    - cd spary_go 
+    - go test -bench . -benchmem

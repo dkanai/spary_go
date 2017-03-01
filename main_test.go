@@ -9,6 +9,8 @@ import (
 	"testing"
 	"os"
 	"encoding/json"
+  "github.com/joho/godotenv"
+  "database/sql"
 )
 
 var sampleHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -33,15 +35,20 @@ func TestSampleHandler(t *testing.T) {
 	}
 }
 func TestMain(m *testing.M){
-	// ここにテストの初期化処理
-	fmt.Printf("初期化")
+  godotenv.Load()
+  godotenv.Load(fmt.Sprintf(".env.%s", os.Getenv("GO_ENV")))
 	code := m.Run()
-	// ここでテストのお片づけ
-	fmt.Printf("後処理")
 	defer os.Exit(code)
 }
 
 func TestShowSpaList(t *testing.T) {
+  db, _ := sql.Open("mysql", os.Getenv("DB_USER") + ":" + os.Getenv("DB_PASS") + "@/" + os.Getenv("DB_NAME"))
+  defer db.Close()
+  query := "DELETE FROM spa;"
+  db.Query(query, "木下温泉", "Where")
+  query2 := "INSERT INTO spa (name,address) VALUES(?, ?)"
+  db.Query(query2, "木下温泉", "木下温泉")
+
 	var requests [3]*http.Request
 	var err error
 
@@ -60,13 +67,4 @@ func TestShowSpaList(t *testing.T) {
 	if obj.Spa[0].Name != "木下温泉" {
 		t.Fatalf("Data Error. name is not '木下温泉'. %v",string(obj.Spa[0].Name))
 	 }
-	if obj.Spa[0].Address != "東日本橋" {
-		t.Fatalf("Data Error. address is not '東日本橋'. %v",string(obj.Spa[0].Address))
-	}
-	if obj.Spa[1].Name!= "hoge温泉" {
-		t.Fatalf("Data Error. name is not 'hoge温泉'. %v",string(obj.Spa[1].Name))
-	}
-	if obj.Spa[1].Address != "大坂" {
-		t.Fatalf("Data Error. address is not '大坂'. %v",string(obj.Spa[1].Address))
-	}
 }
