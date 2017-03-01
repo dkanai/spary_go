@@ -13,27 +13,6 @@ import (
   "database/sql"
 )
 
-var sampleHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello HTTP Test")
-})
-
-func TestSampleHandler(t *testing.T) {
-	ts := httptest.NewServer(sampleHandler)
-	defer ts.Close()
-
-	res, err := http.Get(ts.URL + "/api/spa/list")
-	if err != nil {
-		t.Error("unexpected")
-	}
-	data, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		t.Fatalf("Error by ioutil.ReadAll(). %v", err)
-	}
-
-	if "Hello HTTP Test" != string(data) {
-		t.Fatalf("Data Error. %v", string(data))
-	}
-}
 func TestMain(m *testing.M){
   godotenv.Load()
   godotenv.Load(fmt.Sprintf(".env.%s", os.Getenv("GO_ENV")))
