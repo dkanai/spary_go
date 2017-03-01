@@ -44,22 +44,20 @@ func execShowSpaList() *api.Result {
   return obj
 }
 
+func assetEqual(t *testing.T, actual string, expect string) {
+	if actual != expect {
+		t.Fatalf("%v != %v", string(actual), expect)
+	}
+}
+
 func TestShowSpaList(t *testing.T) {
   db.Query("INSERT INTO spa (name, address) VALUES(?, ?)", "木下温泉", "北海道")
   db.Query("INSERT INTO spa (name, address) VALUES(?, ?)", "木下温泉2", "北海道2")
 
   result := execShowSpaList()
 
-	if result.Spa[0].Name != "木下温泉" {
-		t.Fatalf("%v != %v", string(result.Spa[0].Name), "木下温泉")
-	}
-	if result.Spa[0].Address != "北海道" {
-		t.Fatalf("%v != %v", string(result.Spa[0].Address), "北海道")
-	}
-	if result.Spa[1].Name != "木下温泉2" {
-		t.Fatalf("%v != %v", string(result.Spa[1].Name), "木下温泉2")
-	}
-	if result.Spa[1].Address != "北海道2" {
-		t.Fatalf("%v != %v", string(result.Spa[1].Address), "北海道2")
-	}
+  assetEqual(t, result.Spa[0].Name,    "木下温泉")
+  assetEqual(t, result.Spa[0].Address, "北海道")
+  assetEqual(t, result.Spa[1].Name,    "木下温泉2")
+  assetEqual(t, result.Spa[1].Address, "北海道2")
 }
