@@ -17,9 +17,9 @@ func execShowSpaList() *api.Spas {
 
   //レスポンスを構造体に変換
 	data, _ := ioutil.ReadAll(res.Body)
-	obj := new(api.Spas)
-	json.Unmarshal(([]byte)(string(data)), obj)
-  return obj
+	spas := new(api.Spas)
+	json.Unmarshal(([]byte)(string(data)), spas)
+  return spas
 }
 
 func TestShowSpaList(t *testing.T) {
