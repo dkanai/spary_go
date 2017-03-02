@@ -8,7 +8,7 @@ import (
 	"lib"
 )
 
-type Result struct {
+type Spas struct {
 	Spas []Spa `json:"spa"`
 }
 
@@ -23,13 +23,12 @@ func ShowSpaList(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 
 	rows, _ := db.Query("SELECT * FROM spa")
-	result := Result{}
+	spas := Spas{}
 	for rows.Next() {
 		spa := Spa{}
 		rows.Scan(&spa.Id, &spa.Name, &spa.Address)
-		result.Spas = append(result.Spas, spa)
+		spas.Spas = append(spas.Spas, spa)
 	}
-	bytes, _ := json.Marshal(result)
-
-	fmt.Fprintf(w, "%s", string(bytes))
+	bytes, _ := json.Marshal(spas)
+	fmt.Fprintf(w, string(bytes))
 }

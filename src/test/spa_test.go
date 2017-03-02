@@ -9,7 +9,7 @@ import (
 	"encoding/json"
 )
 
-func execShowSpaList() *api.Result {
+func execShowSpaList() *api.Spas {
   //ShowSpaList実行
 	req, _ := http.NewRequest("GET", "v1/spas", nil)
 	res := httptest.NewRecorder()
@@ -17,7 +17,7 @@ func execShowSpaList() *api.Result {
 
   //レスポンスを構造体に変換
 	data, _ := ioutil.ReadAll(res.Body)
-	obj := new(api.Result)
+	obj := new(api.Spas)
 	json.Unmarshal(([]byte)(string(data)), obj)
   return obj
 }
