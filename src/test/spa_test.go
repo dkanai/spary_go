@@ -28,8 +28,8 @@ func TestShowSpaList(t *testing.T) {
 
   result := execShowSpaList()
 
-  assetEqual(t, result.Spa[0].Name,    "木下温泉")
-  assetEqual(t, result.Spa[0].Address, "北海道")
-  assetEqual(t, result.Spa[1].Name,    "木下温泉2")
-  assetEqual(t, result.Spa[1].Address, "北海道2")
+  assetEqual(t, result.Spas[0].Name,    "木下温泉")
+  assetEqual(t, result.Spas[0].Address, "北海道")
+  assetEqual(t, result.Spas[1].Name,    "木下温泉2")
+  assetEqual(t, result.Spas[1].Address, "北海道2")
 }

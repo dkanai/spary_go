@@ -1,7 +1,6 @@
 package api
 
 import (
-	"database/sql"
 	"encoding/json"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
@@ -10,7 +9,7 @@ import (
 )
 
 type Result struct {
-	Spa []Spa `json:"spa"`
+	Spas []Spa `json:"spa"`
 }
 
 type Spa struct {
@@ -23,55 +22,14 @@ func ShowSpaList(w http.ResponseWriter, r *http.Request) {
 	db := lib.DbOpen()
 	defer db.Close()
 
-	rows, err := db.Query("SELECT * FROM spa")
-	if err != nil {
-		panic(err.Error())
-	}
-
-	columns, err := rows.Columns() // カラム名を取得
-	if err != nil {
-		panic(err.Error())
-	}
-
-	values := make([]sql.RawBytes, len(columns))
-	//  rows.Scan は引数に `[]interface{}`が必要.
-
-	scanArgs := make([]interface{}, len(values))
-	for i := range values {
-		scanArgs[i] = &values[i]
-	}
-
-	spaList := []Spa{}
+	rows, _ := db.Query("SELECT * FROM spa")
+	result := Result{}
 	for rows.Next() {
 		spa := Spa{}
-		err = rows.Scan(scanArgs...)
-		if err != nil {
-			panic(err.Error())
-		}
-
-		var value string
-		for i, col := range values {
-			if col == nil {
-				value = "NULL"
-			} else {
-				value = string(col)
-			}
-			if columns[i] == "name" {
-				spa.Name = value
-			} else if columns[i] == "address" {
-				spa.Address = value
-			} else if columns[i] == "id" {
-				spa.Id = value
-			}
-		}
-		spaList = append(spaList, spa)
-
+		rows.Scan(&spa.Id, &spa.Name, &spa.Address)
+		result.Spas = append(result.Spas, spa)
 	}
-	data := Result{}
-	data.Spa = spaList
-	bytes, err := json.Marshal(data)
-	if err != nil {
-		return
-	}
-	fmt.Fprintf(w, "%s\n", string(bytes))
+	bytes, _ := json.Marshal(result)
+
+	fmt.Fprintf(w, "%s", string(bytes))
 }
