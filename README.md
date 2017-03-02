@@ -11,3 +11,9 @@ No SPA, No life! You're making more better SPA life.
 ## Init
 $ mysql -u root -p < db/init.sql  
 $ mysql -u root -p < db/create_table.sql
+
+## Test
+$ sh test.sh
+$ sh watch_test.sh
+dependency: brew install fswatch
+
