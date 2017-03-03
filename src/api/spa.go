@@ -32,3 +32,11 @@ func ShowSpaList(w http.ResponseWriter, r *http.Request) {
 	bytes, _ := json.Marshal(spas)
 	fmt.Fprintf(w, string(bytes))
 }
+
+func ShowSpa(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("show spa")
+}
+
+func CreateSpa(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("create spa")
+}
