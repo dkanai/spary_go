@@ -13,11 +13,10 @@ func main() {
 
   if len(os.Args) == 1 {
     api.Run()
-  } else if os.Args[1] == "api" {
-    api.Run()
-  } else if os.Args[1] == "batch" {
-    batch.ImportOnsenList()
+  } else if len(os.Args) == 2 {
+    funcs := map[string]func() { "ImportOnsenList" : batch.ImportOnsenList }
+    funcs[os.Args[1]]()
   } else {
-    fmt.Println("not work")
+    fmt.Println("too many args")
   }
 }
