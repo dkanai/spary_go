@@ -12,6 +12,9 @@ No SPA, No life! You're making more better SPA life.
 $ mysql -u root -p < db/init.sql  
 $ mysql -u root -p < db/create_table.sql
 
+## Batch
+$ Import Spa Info : go run main.go ImportOnsenList
+
 ## Test
 $ sh test.sh
 $ sh watch_test.sh
