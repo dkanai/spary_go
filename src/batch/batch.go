@@ -5,7 +5,6 @@ import (
   "io/ioutil"
 	_ "github.com/go-sql-driver/mysql"
 	"net/http"
-	"lib"
 )
 
 func ImportOnsenList() {
@@ -17,15 +16,4 @@ func ImportOnsenList() {
 
   byteArray, _ := ioutil.ReadAll(resp.Body)
   fmt.Println(string(byteArray))
-
-	db := lib.DbOpen()
-	defer db.Close()
-
-  query := "INSERT INTO spa (name,address) VALUES(?, ?)"
-
-	rows, err := db.Query(query, "AAA", "Where")
-	if err != nil {
-		panic(err.Error())
-	}
-  fmt.Println(rows)
 }

@@ -29,8 +29,8 @@ func ShowSpaList(w http.ResponseWriter, r *http.Request) {
 		rows.Scan(&spa.Id, &spa.Name, &spa.Address)
 		spas.Spas = append(spas.Spas, spa)
 	}
-	bytes, _ := json.Marshal(spas)
-	fmt.Fprintf(w, string(bytes))
+	result, _ := json.Marshal(spas)
+	fmt.Fprintf(w, string(result))
 }
 
 func ShowSpa(w http.ResponseWriter, r *http.Request) {
@@ -39,4 +39,9 @@ func ShowSpa(w http.ResponseWriter, r *http.Request) {
 
 func CreateSpa(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("create spa")
+	db := lib.DbOpen()
+	defer db.Close()
+
+	query := "INSERT INTO spa (name,address) VALUES(?, ?)"
+	db.Query(query, "AAA", "Where")
 }
