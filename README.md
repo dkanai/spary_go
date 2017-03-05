@@ -16,6 +16,7 @@ $ mysql -u root -p < db/create_table.sql
 $ Import Spa Info : go run main.go ImportOnsenList
 
 ## Test
+setting ROOT_PATH at .env
 $ sh test.sh
 $ sh watch_test.sh
 dependency: brew install fswatch
