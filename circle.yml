@@ -13,9 +13,11 @@ dependencies:
 
 checkout:
   override:
-    - sudo mkdir -p /home/ubuntu/.go_workspace/src; sudo chmod 777 -R /home/ubuntu/.go_workspace; cd /home/ubuntu/.go_workspace/src; git clone https://github.com/corgisamurai/spary_go.git
+    - sudo rm -rf /home/ubuntu/.go_workspace/src/spary_go; sudo mkdir -p /home/ubuntu/.go_workspace/src; sudo chmod 777 -R /home/ubuntu/.go_workspace; cd /home/ubuntu/.go_workspace/src; git clone https://github.com/corgisamurai/spary_go.git
 
 test:
   override:
-    - /home/ubuntu/.go_workspace/src/spary_go;
+    - cd /home/ubuntu/.go_workspace/src/spary_go;
+    - mysql -u root < db/init.sql
+    - mysql -u root < db/create_table.sql
     - sh ./test.sh
