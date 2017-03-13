@@ -6,6 +6,7 @@ dependencies:
   pre:
     - sudo add-apt-repository ppa:masterminds/glide -y && sudo apt-get update && sudo apt-get install glide -y
     - mkdir -p ${HOME}/.go_project/src/
+    - mkdir -p /usr/local/go_workspace/src
   override:
     - glide install
 
