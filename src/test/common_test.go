@@ -26,7 +26,7 @@ func truncateTable() {
   db.Query("DELETE FROM spa;")
 }
 
-func assetEqual(t *testing.T, actual string, expect string) {
+func assertEqual(t *testing.T, actual string, expect string) {
 	if actual != expect {
 		t.Fatalf("%v != %v", string(actual), expect)
 	}
