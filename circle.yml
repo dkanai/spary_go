@@ -8,7 +8,7 @@ checkout:
 
 dependencies:
   override:
-    - go get -h
+    - glide update
 
 test:
   override:
