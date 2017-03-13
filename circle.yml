@@ -17,5 +17,7 @@ checkout:
 
 test:
   override:
-    - /home/ubuntu/.go_workspace/src/spary_go;
+    - cd /home/ubuntu/.go_workspace/src/spary_go;
+    - mysql -u root < db/init.sql
+    - mysql -u root < db/create_table.sql
     - sh ./test.sh
