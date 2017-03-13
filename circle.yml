@@ -17,5 +17,5 @@ checkout:
 
 test:
   override:
-    - cd spary_go
+    - /home/ubuntu/.go_workspace/src/spary_go;
     - sh ./test.sh
