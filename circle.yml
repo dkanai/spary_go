@@ -11,7 +11,7 @@ dependencies:
 
 checkout:
   override:
-    - sudo mkdir -p /home/ubuntu/.go_workspace/src; cd /home/ubuntu/.go_workspace/src; sudo git clone https://github.com/corgisamurai/spary_go.git
+    - sudo mkdir -p /home/ubuntu/.go_workspace/src; sudo chmod 777 -R /home/ubuntu/.go_workspace; cd /home/ubuntu/.go_workspace/src; git clone https://github.com/corgisamurai/spary_go.git
 
 test:
   override:
